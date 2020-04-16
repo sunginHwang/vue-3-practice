@@ -2,12 +2,13 @@
   <div id="app">
     <img alt="Vue logo" src="assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <h2>{{a}}</h2>
+    <h2>{{name}}</h2>
   </div>
 </template>
 
 <script>
-  import { ref } from 'vue';
+  import {  computed } from 'vue';
+  import { useStore } from 'vuex'
   import HelloWorld from './components/HelloWorld.vue'
 
 export default {
@@ -16,10 +17,11 @@ export default {
     HelloWorld
   },
   setup(){
-    const a = ref(1);
+    const store = useStore();
+    const name = computed(() => store.state.name);
 
     return {
-      a
+      name
     }
   }
 }
