@@ -3,12 +3,17 @@
         <h2>{{name}}</h2>
         <p>{{personInfo}}</p>
         <input type="text" :value="name" @input="changeName" placeholder="이름을 작성해 주세요."/>
+        <div v-if="isShowResizeComponent">
+            <button @click="toggleShowResize">버튼 가리기</button>
+            <resize/>
+        </div>
     </div>
 </template>
 
 <script>
-    import {computed} from 'vue';
+    import {computed,ref } from 'vue';
     import {useStore} from 'vuex';
+    import Resize from "./components/resize";
 
     function usePerson() {
         const store = useStore();
@@ -24,13 +29,26 @@
         }
     }
 
+    function useResize(){
+      const isShowResizeComponent = ref(true);
+      const toggleShowResize = () => isShowResizeComponent.value = !isShowResizeComponent.value;
+
+      return {
+          isShowResizeComponent,
+          toggleShowResize
+      }
+    }
+
     export default {
         name: 'App',
+        components: {Resize},
         setup() {
+
             return {
-                ...usePerson()
+                ...usePerson(),
+                ...useResize()
             }
-        }
+        },
     }
 </script>
 
